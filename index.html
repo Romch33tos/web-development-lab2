@@ -72,5 +72,16 @@
             </div>
         </li>
     </template>
+
+    <div class="modal" data-modal="delete" hidden>
+        <div class="modal__backdrop" data-modal-close></div>
+        <div class="alert" role="alertdialog" aria-labelledby="delete-title" aria-modal="true">
+            <p class="alert__title" id="delete-title">Delete this task?</p>
+            <div class="alert__buttons">
+                <button class="alert__btn" type="button" data-modal-close>No</button>
+                <button class="alert__btn alert__btn--accent" type="button" data-modal-confirm-delete>Yes</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
