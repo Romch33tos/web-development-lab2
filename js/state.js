@@ -44,3 +44,18 @@ export function removeTask(id) {
     state.tasks = state.tasks.filter(t => t.id !== id);
     commit();
 }
+
+export function editTask(id, newTitle, newBody) {
+    const task = state.tasks.find(t => t.id === id);
+    if (!task) return;
+
+    const trimmedTitle = newTitle.trim();
+    if (!trimmedTitle) {
+        removeTask(id);
+        return;
+    }
+
+    task.title = trimmedTitle;
+    task.body = (newBody ?? '').trim();
+    commit();
+}
