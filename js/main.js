@@ -27,3 +27,28 @@ function clearError() {
     errorElement.textContent = '';
     titleInput.removeAttribute('aria-invalid');
 }
+
+addForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const title = titleInput.value.trim();
+    const body = bodyInput.value.trim();
+
+    if (!title) {
+        showError('Введите заголовок задачи');
+        titleInput.setAttribute('aria-invalid', 'true');
+        titleInput.focus();
+        return;
+    }
+
+    addTask(title, body);
+    announce(`Задача «${title}» добавлена`);
+
+    addForm.reset();
+    clearError();
+    titleInput.focus();
+});
+
+titleInput.addEventListener('input', () => {
+    if (titleInput.getAttribute('aria-invalid') === 'true') clearError();
+});
