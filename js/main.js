@@ -82,3 +82,18 @@ taskList.addEventListener('click', (event) => {
         tools.hidden = !tools.hidden;
     }
 });
+
+taskList.addEventListener('change', (event) => {
+    if (!event.target.matches('.task__check')) return;
+
+    const taskItem = event.target.closest('.task-item');
+    const taskId = taskItem.dataset.id;
+    const taskTitle = taskItem.querySelector('.task__title').textContent;
+
+    toggleTask(taskId);
+
+    announce(event.target.checked
+        ? `Задача «${taskTitle}» отмечена выполненной`
+        : `Отметка с задачи «${taskTitle}» снята`
+    );
+});
