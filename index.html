@@ -83,5 +83,22 @@
             </div>
         </div>
     </div>
+
+    <div class="modal" data-modal="edit" hidden>
+        <div class="modal__backdrop" data-modal-close></div>
+        <div class="edit-window" role="dialog" aria-labelledby="edit-title" aria-modal="true">
+            <h2 class="visually-hidden" id="edit-title">Редактировать задачу</h2>
+            <div class="edit-window__fields">
+                <label class="visually-hidden" for="edit-title-input">Заголовок</label>
+                <input id="edit-title-input" class="edit-window__input" type="text" maxlength="100" placeholder="Mini Input...">
+                <label class="visually-hidden" for="edit-body-input">Описание</label>
+                <textarea id="edit-body-input" class="edit-window__textarea" maxlength="200" placeholder="Max Input..."></textarea>
+            </div>
+            <div class="edit-window__buttons">
+                <button class="alert__btn" type="button" data-modal-close>Cancel</button>
+                <button class="alert__btn alert__btn--accent" type="button" data-modal-confirm-edit>Save</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
