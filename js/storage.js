@@ -7,7 +7,13 @@ export function load() {
         if (!raw) return { tasks: [] };
 
         const data = JSON.parse(raw);
-        return data;
+
+        if (!data || !Array.isArray(data.tasks)) {
+            console.warn('Повреждённая структура данных, стартуем с пустым списком');
+            return { tasks: [] };
+        }
+
+        return { tasks: data.tasks };
     } catch (error) {
         console.warn('Не удалось прочитать сохранённые задачи', error);
         return { tasks: [] };
