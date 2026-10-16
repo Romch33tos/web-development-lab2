@@ -29,5 +29,17 @@ function createTaskItem(task) {
     title.textContent = task.title;
     body.textContent = task.body;
 
+    item.querySelector('.task__delete')
+        .setAttribute('aria-label', `Удалить задачу «${task.title}»`);
+
+    item.querySelector('[data-action="share"]')
+        .setAttribute('aria-label', `Поделиться задачей «${task.title}»`);
+
+    item.querySelector('[data-action="info"]')
+        .setAttribute('aria-label', `Информация о задаче «${task.title}»`);
+
+    item.querySelector('[data-action="edit"]')
+        .setAttribute('aria-label', `Редактировать задачу «${task.title}»`);
+
     return item;
 }
