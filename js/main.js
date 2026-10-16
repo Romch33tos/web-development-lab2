@@ -1,3 +1,4 @@
+// js/main.js
 import { state, subscribe, addTask, toggleTask } from './state.js';
 import { render } from './view.js';
 import { openModal, onDelete, onEdit } from './modals.js';
@@ -51,4 +52,33 @@ addForm.addEventListener('submit', (event) => {
 
 titleInput.addEventListener('input', () => {
     if (titleInput.getAttribute('aria-invalid') === 'true') clearError();
+});
+
+taskList.addEventListener('click', (event) => {
+    if (event.target.matches('.task__check')) return;
+
+    const taskItem = event.target.closest('.task-item');
+    if (!taskItem) return;
+
+    const taskId = taskItem.dataset.id;
+
+    if (event.target.closest('[data-action="delete"]')) {
+        event.stopPropagation();
+        openModal('delete', taskId);
+        return;
+    }
+
+    const actionButton = event.target.closest('[data-action]');
+    if (actionButton) {
+        const { action } = actionButton.dataset;
+        if (action === 'share') openModal('share', taskId);
+        if (action === 'info') openModal('info', taskId);
+        if (action === 'edit') openModal('edit', taskId);
+        return;
+    }
+
+    if (event.target.closest('[data-task-toggle]')) {
+        const tools = taskItem.querySelector('.task__tools');
+        tools.hidden = !tools.hidden;
+    }
 });
