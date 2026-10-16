@@ -1,4 +1,3 @@
-// js/main.js
 import { state, subscribe, addTask, toggleTask } from './state.js';
 import { render } from './view.js';
 import { openModal, onDelete, onEdit } from './modals.js';
@@ -96,4 +95,27 @@ taskList.addEventListener('change', (event) => {
         ? `Задача «${taskTitle}» отмечена выполненной`
         : `Отметка с задачи «${taskTitle}» снята`
     );
+});
+
+onDelete(() => {
+    const firstItem = taskList.querySelector('.task-item');
+    if (firstItem) {
+        firstItem.querySelector('.task__delete')?.focus();
+    } else {
+        titleInput.focus();
+    }
+    announce('Задача удалена');
+});
+
+onEdit((editedId) => {
+    const taskItem = taskList.querySelector(`.task-item[data-id="${editedId}"]`);
+    if (taskItem) {
+        const titleElement = taskItem.querySelector('.task__title');
+        if (titleElement) {
+            titleElement.setAttribute('tabindex', '-1');
+            titleElement.focus();
+            titleElement.removeAttribute('tabindex');
+        }
+    }
+    announce('Задача изменена');
 });
