@@ -119,3 +119,14 @@ document.querySelectorAll('[data-share-action]').forEach(button => {
         closeModal('share');
     });
 });
+
+document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
+    ['edit', 'share', 'info', 'delete'].some(name => {
+        if (!modalElements[name].hidden) {
+            closeModal(name);
+            return true;
+        }
+        return false;
+    });
+});
