@@ -42,5 +42,35 @@
 
         <p class="status visually-hidden" data-status aria-live="polite"></p>
     </main>
+
+    <template id="task-template">
+        <li class="task-item" data-id="">
+            <div class="task" data-task-toggle>
+                <input class="task__check" type="checkbox" id="">
+                <div class="task__content">
+                    <h2 class="task__title"></h2>
+                    <p class="task__body"></p>
+                </div>
+                <button class="task__delete" type="button" data-action="delete" aria-label="Удалить задачу">
+                    <svg class="task__delete-icon" viewBox="0 0 32 32" aria-hidden="true">
+                        <line x1="10" y1="10" x2="22" y2="22" stroke="#FF8303" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="22" y1="10" x2="10" y2="22" stroke="#FF8303" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="task__tools" hidden>
+                <button class="tool-btn" type="button" data-action="share" aria-label="Поделиться задачей">
+                    <img src="./img/icons/share.svg" alt="" width="21" height="21">
+                </button>
+                <button class="tool-btn" type="button" data-action="info" aria-label="Информация о задаче">
+                    <img src="./img/icons/info.svg" alt="" width="21" height="21">
+                </button>
+                <button class="tool-btn" type="button" data-action="edit" aria-label="Редактировать задачу">
+                    <img src="./img/icons/edit.svg" alt="" width="21" height="21">
+                </button>
+            </div>
+        </li>
+    </template>
 </body>
 </html>
