@@ -1,4 +1,3 @@
-// js/modals.js
 import { state, editTask, removeTask } from './state.js';
 
 const modalElements = {
@@ -106,4 +105,17 @@ document.querySelector('[data-modal-confirm-edit]').addEventListener('click', ()
         afterEditCallback(currentTaskId);
     }
     closeModal('edit');
+});
+
+document.querySelectorAll('[data-share-action]').forEach(button => {
+    button.addEventListener('click', () => {
+        const { shareAction } = button.dataset;
+        const task = state.tasks.find(t => t.id === currentTaskId);
+        const text = task ? `${task.title}\n${task.body}` : '';
+
+        if (shareAction === 'copy' && navigator.clipboard) {
+            navigator.clipboard.writeText(text).catch(() => {});
+        }
+        closeModal('share');
+    });
 });
