@@ -21,12 +21,41 @@ export function openModal(name, taskId) {
         document.querySelector('#edit-body-input').value = task.body;
     }
 
+    if (name === 'info') {
+        if (!task) return;
+        renderInfoContent(task);
+    }
+
     modalElements[name].hidden = false;
 
     const focusTarget = modalElements[name].querySelector('input, textarea')
         || modalElements[name].querySelector('button:not([data-modal-close])')
         || modalElements[name].querySelector('button');
     if (focusTarget) focusTarget.focus();
+}
+
+function renderInfoContent(task) {
+    const createdAt = new Date(task.createdAt);
+    const infoContent = document.querySelector('[data-info-content]');
+    infoContent.innerHTML = '';
+    const definitionList = document.createElement('dl');
+
+    const fields = [
+        ['Заголовок', task.title],
+        ['Описание', task.body || '—'],
+        ['Создана', createdAt.toLocaleString('ru-RU')],
+        ['Статус', task.done ? 'Выполнена' : 'В работе'],
+    ];
+
+    for (const [label, value] of fields) {
+        const dt = document.createElement('dt');
+        dt.textContent = label;
+        const dd = document.createElement('dd');
+        dd.textContent = value;
+        definitionList.append(dt, dd);
+    }
+
+    infoContent.appendChild(definitionList);
 }
 
 export function closeModal(name) {
