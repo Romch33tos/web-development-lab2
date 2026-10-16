@@ -26,3 +26,11 @@ export function load() {
         return { tasks: [] };
     }
 }
+
+export function save(state) {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (error) {
+        console.warn('Не удалось сохранить задачи', error);
+    }
+}
