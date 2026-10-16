@@ -9,6 +9,8 @@ const modalElements = {
 };
 
 let currentTaskId = null;
+let afterDeleteCallback = () => {};
+let afterEditCallback = () => {};
 
 export function openModal(name, taskId) {
     currentTaskId = taskId;
@@ -72,3 +74,29 @@ export function closeAllModals() {
 export function getCurrentTaskId() {
     return currentTaskId;
 }
+
+export function onDelete(callback) {
+    afterDeleteCallback = callback;
+}
+
+export function onEdit(callback) {
+    afterEditCallback = callback;
+}
+
+document.querySelector('[data-modal-confirm-delete]').addEventListener('click', () => {
+    if (currentTaskId) {
+        removeTask(currentTaskId);
+        afterDeleteCallback(currentTaskId);
+    }
+    closeModal('delete');
+});
+
+document.querySelector('[data-modal-confirm-edit]').addEventListener('click', () => {
+    if (currentTaskId) {
+        const newTitle = document.querySelector('#edit-title-input').value;
+        const newBody = document.querySelector('#edit-body-input').value;
+        editTask(currentTaskId, newTitle, newBody);
+        afterEditCallback(currentTaskId);
+    }
+    closeModal('edit');
+});
