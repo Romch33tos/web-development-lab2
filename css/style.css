@@ -609,3 +609,76 @@ body {
   display: block;
   pointer-events: none;
 }
+
+@media (min-width: 1024px) {
+  body {
+    padding-top: 60px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  body {
+    padding: 32px 23px;
+  }
+}
+
+@media (max-width: 380px) {
+  body {
+    padding: 12px;
+  }
+
+  .add-form {
+    gap: 6px;
+    margin-bottom: 24px;
+  }
+
+  .add-form__button {
+    width: 60px;
+    height: 60px;
+  }
+
+  .add-form__plus {
+    width: 20px;
+    height: 20px;
+  }
+
+  .task {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .task__check {
+    width: 20px;
+    height: 20px;
+  }
+
+  .task__title {
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  .task__body {
+    font-size: 13px;
+    line-height: 15px;
+  }
+
+  .task__delete {
+    width: 28px;
+    height: 28px;
+  }
+
+  .empty {
+    top: 130px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
