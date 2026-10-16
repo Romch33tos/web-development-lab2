@@ -13,3 +13,21 @@ function commit() {
     save(state);
     onChange(state);
 }
+
+export function addTask(title, body = '') {
+    const trimmedTitle = title.trim();
+    const trimmedBody = body.trim();
+
+    if (!trimmedTitle) return false;
+
+    state.tasks.push({
+        id: crypto.randomUUID(),
+        title: trimmedTitle,
+        body: trimmedBody,
+        done: false,
+        createdAt: Date.now(),
+    });
+
+    commit();
+    return true;
+}
