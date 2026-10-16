@@ -1,139 +1,139 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Список задач</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./css/style.css">
-    <script type="module" src="./js/main.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Список задач</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/style.css">
+  <script type="module" src="./js/main.js"></script>
 </head>
 <body>
-    <main class="app">
-        <form class="add-form" data-add-form novalidate>
-            <div class="add-form__inputs">
-                <label class="visually-hidden" for="new-task-title">Заголовок задачи</label>
-                <input
-                    id="new-task-title" name="title" type="text" maxlength="100"
-                    placeholder="Task Title..." autocomplete="off"
-                    aria-describedby="new-task-error" required
-                >
-                <label class="visually-hidden" for="new-task-body">Описание задачи</label>
-                <input
-                    id="new-task-body" name="body" type="text" maxlength="200"
-                    placeholder="Task body about this task..." autocomplete="off"
-                >
-            </div>
-            <button class="add-form__button" type="submit" aria-label="Добавить задачу">
-                <span class="add-form__plus" aria-hidden="true"></span>
-            </button>
-            <p class="add-form__error" id="new-task-error" aria-live="polite"></p>
-        </form>
+  <main class="app">
+    <form class="add-form" data-add-form novalidate>
+      <div class="add-form__inputs">
+        <label class="visually-hidden" for="new-task-title">Заголовок задачи</label>
+        <input
+          id="new-task-title" name="title" type="text" maxlength="100"
+          placeholder="Task Title..." autocomplete="off"
+          aria-describedby="new-task-error" required
+        >
+        <label class="visually-hidden" for="new-task-body">Описание задачи</label>
+        <input
+          id="new-task-body" name="body" type="text" maxlength="200"
+          placeholder="Task body about this task..." autocomplete="off"
+        >
+      </div>
+      <button class="add-form__button" type="submit" aria-label="Добавить задачу">
+        <span class="add-form__plus" aria-hidden="true"></span>
+      </button>
+      <p class="add-form__error" id="new-task-error" aria-live="polite"></p>
+    </form>
 
-        <ul class="task-list" data-list></ul>
+    <ul class="task-list" data-list></ul>
 
-        <div class="empty" data-empty>
-            <span class="empty__line"></span>
-            <p class="empty__text">No tasks</p>
-            <span class="empty__line"></span>
-        </div>
-
-        <p class="status visually-hidden" data-status aria-live="polite"></p>
-    </main>
-
-    <template id="task-template">
-        <li class="task-item" data-id="">
-            <div class="task" data-task-toggle>
-                <input class="task__check" type="checkbox" id="">
-                <div class="task__content">
-                    <h2 class="task__title"></h2>
-                    <p class="task__body"></p>
-                </div>
-                <button class="task__delete" type="button" data-action="delete" aria-label="Удалить задачу">
-                    <svg class="task__delete-icon" viewBox="0 0 32 32" aria-hidden="true">
-                        <line x1="10" y1="10" x2="22" y2="22" stroke="#FF8303" stroke-width="2" stroke-linecap="round"/>
-                        <line x1="22" y1="10" x2="10" y2="22" stroke="#FF8303" stroke-width="2" stroke-linecap="round"/>
-                    </svg>
-                </button>
-            </div>
-
-            <div class="task__tools" hidden>
-                <button class="tool-btn" type="button" data-action="share" aria-label="Поделиться задачей">
-                    <img src="./img/icons/share.svg" alt="" width="21" height="21">
-                </button>
-                <button class="tool-btn" type="button" data-action="info" aria-label="Информация о задаче">
-                    <img src="./img/icons/info.svg" alt="" width="21" height="21">
-                </button>
-                <button class="tool-btn" type="button" data-action="edit" aria-label="Редактировать задачу">
-                    <img src="./img/icons/edit.svg" alt="" width="21" height="21">
-                </button>
-            </div>
-        </li>
-    </template>
-
-    <div class="modal" data-modal="delete" hidden>
-        <div class="modal__backdrop" data-modal-close></div>
-        <div class="alert" role="alertdialog" aria-labelledby="delete-title" aria-modal="true">
-            <p class="alert__title" id="delete-title">Delete this task?</p>
-            <div class="alert__buttons">
-                <button class="alert__btn" type="button" data-modal-close>No</button>
-                <button class="alert__btn alert__btn--accent" type="button" data-modal-confirm-delete>Yes</button>
-            </div>
-        </div>
+    <div class="empty" data-empty>
+      <span class="empty__line"></span>
+      <p class="empty__text">No tasks</p>
+      <span class="empty__line"></span>
     </div>
 
-    <div class="modal" data-modal="edit" hidden>
-        <div class="modal__backdrop" data-modal-close></div>
-        <div class="edit-window" role="dialog" aria-labelledby="edit-title" aria-modal="true">
-            <h2 class="visually-hidden" id="edit-title">Редактировать задачу</h2>
-            <div class="edit-window__fields">
-                <label class="visually-hidden" for="edit-title-input">Заголовок</label>
-                <input id="edit-title-input" class="edit-window__input" type="text" maxlength="100" placeholder="Mini Input...">
-                <label class="visually-hidden" for="edit-body-input">Описание</label>
-                <textarea id="edit-body-input" class="edit-window__textarea" maxlength="200" placeholder="Max Input..."></textarea>
-            </div>
-            <div class="edit-window__buttons">
-                <button class="alert__btn" type="button" data-modal-close>Cancel</button>
-                <button class="alert__btn alert__btn--accent" type="button" data-modal-confirm-edit>Save</button>
-            </div>
-        </div>
-    </div>
+    <p class="status visually-hidden" data-status aria-live="polite"></p>
+  </main>
 
-    <div class="modal" data-modal="share" hidden>
-        <div class="modal__backdrop" data-modal-close></div>
-        <div class="share-window" role="dialog" aria-labelledby="share-title" aria-modal="true">
-            <h2 class="visually-hidden" id="share-title">Поделиться задачей</h2>
-            <div class="share-window__icons">
-                <button class="share-icon" type="button" data-share-action="copy" aria-label="Скопировать текст">
-                    <img src="./img/icons/copy.svg" alt="" width="21" height="21">
-                </button>
-                <button class="share-icon" type="button" data-share-action="vk" aria-label="Поделиться во ВКонтакте">
-                    <img src="./img/icons/vk.svg" alt="" width="21" height="13">
-                </button>
-                <button class="share-icon" type="button" data-share-action="telegram" aria-label="Поделиться в Telegram">
-                    <img src="./img/icons/telegram.svg" alt="" width="19" height="16">
-                </button>
-                <button class="share-icon" type="button" data-share-action="whatsapp" aria-label="Поделиться в WhatsApp">
-                    <img src="./img/icons/whatsapp.svg" alt="" width="17" height="17">
-                </button>
-                <button class="share-icon" type="button" data-share-action="facebook" aria-label="Поделиться в Facebook">
-                    <img src="./img/icons/facebook.svg" alt="" width="21" height="21">
-                </button>
-            </div>
+  <template id="task-template">
+    <li class="task-item" data-id="">
+      <div class="task" data-task-toggle>
+        <input class="task__check" type="checkbox" id="">
+        <div class="task__content">
+          <h2 class="task__title"></h2>
+          <p class="task__body"></p>
         </div>
-    </div>
+        <button class="task__delete" type="button" data-action="delete" aria-label="Удалить задачу">
+          <svg class="task__delete-icon" viewBox="0 0 32 32" aria-hidden="true">
+            <line x1="10" y1="10" x2="22" y2="22" stroke="#FF8303" stroke-width="2" stroke-linecap="round"/>
+            <line x1="22" y1="10" x2="10" y2="22" stroke="#FF8303" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
 
-    <div class="modal" data-modal="info" hidden>
-        <div class="modal__backdrop" data-modal-close></div>
-        <div class="alert" role="alertdialog" aria-labelledby="info-title" aria-modal="true">
-            <p class="alert__title" id="info-title">Task info</p>
-            <div class="info-content" data-info-content></div>
-            <div class="alert__buttons">
-                <button class="alert__btn alert__btn--accent" type="button" data-modal-close>OK</button>
-            </div>
-        </div>
+      <div class="task__tools" hidden>
+        <button class="tool-btn" type="button" data-action="share" aria-label="Поделиться задачей">
+          <img src="./img/icons/share.svg" alt="" width="21" height="21">
+        </button>
+        <button class="tool-btn" type="button" data-action="info" aria-label="Информация о задаче">
+          <img src="./img/icons/info.svg" alt="" width="21" height="21">
+        </button>
+        <button class="tool-btn" type="button" data-action="edit" aria-label="Редактировать задачу">
+          <img src="./img/icons/edit.svg" alt="" width="21" height="21">
+        </button>
+      </div>
+    </li>
+  </template>
+
+  <div class="modal" data-modal="delete" hidden>
+    <div class="modal__backdrop" data-modal-close></div>
+    <div class="alert" role="alertdialog" aria-labelledby="delete-title" aria-modal="true">
+      <p class="alert__title" id="delete-title">Delete this task?</p>
+      <div class="alert__buttons">
+        <button class="alert__btn" type="button" data-modal-close>No</button>
+        <button class="alert__btn alert__btn--accent" type="button" data-modal-confirm-delete>Yes</button>
+      </div>
     </div>
+  </div>
+
+  <div class="modal" data-modal="edit" hidden>
+    <div class="modal__backdrop" data-modal-close></div>
+    <div class="edit-window" role="dialog" aria-labelledby="edit-title" aria-modal="true">
+      <h2 class="visually-hidden" id="edit-title">Редактировать задачу</h2>
+      <div class="edit-window__fields">
+        <label class="visually-hidden" for="edit-title-input">Заголовок</label>
+        <input id="edit-title-input" class="edit-window__input" type="text" maxlength="100" placeholder="Mini Input...">
+        <label class="visually-hidden" for="edit-body-input">Описание</label>
+        <textarea id="edit-body-input" class="edit-window__textarea" maxlength="200" placeholder="Max Input..."></textarea>
+      </div>
+      <div class="edit-window__buttons">
+        <button class="alert__btn" type="button" data-modal-close>Cancel</button>
+        <button class="alert__btn alert__btn--accent" type="button" data-modal-confirm-edit>Save</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" data-modal="share" hidden>
+    <div class="modal__backdrop" data-modal-close></div>
+    <div class="share-window" role="dialog" aria-labelledby="share-title" aria-modal="true">
+      <h2 class="visually-hidden" id="share-title">Поделиться задачей</h2>
+      <div class="share-window__icons">
+        <button class="share-icon" type="button" data-share-action="copy" aria-label="Скопировать текст">
+          <img src="./img/icons/copy.svg" alt="" width="21" height="21">
+        </button>
+        <button class="share-icon" type="button" data-share-action="vk" aria-label="Поделиться во ВКонтакте">
+          <img src="./img/icons/vk.svg" alt="" width="21" height="13">
+        </button>
+        <button class="share-icon" type="button" data-share-action="telegram" aria-label="Поделиться в Telegram">
+          <img src="./img/icons/telegram.svg" alt="" width="19" height="16">
+        </button>
+        <button class="share-icon" type="button" data-share-action="whatsapp" aria-label="Поделиться в WhatsApp">
+          <img src="./img/icons/whatsapp.svg" alt="" width="17" height="17">
+        </button>
+        <button class="share-icon" type="button" data-share-action="facebook" aria-label="Поделиться в Facebook">
+          <img src="./img/icons/facebook.svg" alt="" width="21" height="21">
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" data-modal="info" hidden>
+    <div class="modal__backdrop" data-modal-close></div>
+    <div class="alert" role="alertdialog" aria-labelledby="info-title" aria-modal="true">
+      <p class="alert__title" id="info-title">Task info</p>
+      <div class="info-content" data-info-content></div>
+      <div class="alert__buttons">
+        <button class="alert__btn alert__btn--accent" type="button" data-modal-close>OK</button>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
