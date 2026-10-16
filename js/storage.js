@@ -13,7 +13,14 @@ export function load() {
             return { tasks: [] };
         }
 
-        return { tasks: data.tasks };
+        const validTasks = data.tasks.filter(task =>
+            task &&
+            typeof task.id === 'string' &&
+            typeof task.title === 'string' &&
+            typeof task.done === 'boolean'
+        );
+
+        return { tasks: validTasks };
     } catch (error) {
         console.warn('Не удалось прочитать сохранённые задачи', error);
         return { tasks: [] };
