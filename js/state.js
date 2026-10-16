@@ -39,3 +39,8 @@ export function toggleTask(id) {
     task.done = !task.done;
     commit();
 }
+
+export function removeTask(id) {
+    state.tasks = state.tasks.filter(t => t.id !== id);
+    commit();
+}
