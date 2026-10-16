@@ -11,3 +11,19 @@ const statusElement = document.querySelector('[data-status]');
 
 subscribe(render);
 render(state);
+
+function announce(message) {
+    statusElement.textContent = '';
+    setTimeout(() => {
+        statusElement.textContent = message;
+    }, 50);
+}
+
+function showError(message) {
+    errorElement.textContent = message;
+}
+
+function clearError() {
+    errorElement.textContent = '';
+    titleInput.removeAttribute('aria-invalid');
+}
