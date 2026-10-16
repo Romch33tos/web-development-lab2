@@ -83,6 +83,13 @@ export function onEdit(callback) {
     afterEditCallback = callback;
 }
 
+document.querySelectorAll('[data-modal-close]').forEach(element => {
+    element.addEventListener('click', () => {
+        const modal = element.closest('.modal');
+        if (modal) closeModal(modal.dataset.modal);
+    });
+});
+
 document.querySelector('[data-modal-confirm-delete]').addEventListener('click', () => {
     if (currentTaskId) {
         removeTask(currentTaskId);
