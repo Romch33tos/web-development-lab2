@@ -22,5 +22,12 @@ function createTaskItem(task) {
 
     card.classList.toggle('task--done', task.done);
 
+    check.id = `task-check-${task.id}`;
+    check.checked = task.done;
+    check.setAttribute('aria-label', `Отметить «${task.title}» выполненной`);
+
+    title.textContent = task.title;
+    body.textContent = task.body;
+
     return item;
 }
