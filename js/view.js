@@ -8,3 +8,19 @@ export function render(state) {
     taskList.replaceChildren(...items);
     emptyState.hidden = state.tasks.length > 0;
 }
+
+function createTaskItem(task) {
+    const item = taskTemplate.content.firstElementChild.cloneNode(true);
+
+    const card = item.querySelector('.task');
+    const check = item.querySelector('.task__check');
+    const title = item.querySelector('.task__title');
+    const body = item.querySelector('.task__body');
+    const tools = item.querySelector('.task__tools');
+
+    item.dataset.id = task.id;
+
+    card.classList.toggle('task--done', task.done);
+
+    return item;
+}
