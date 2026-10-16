@@ -31,3 +31,11 @@ export function addTask(title, body = '') {
     commit();
     return true;
 }
+
+export function toggleTask(id) {
+    const task = state.tasks.find(t => t.id === id);
+    if (!task) return;
+
+    task.done = !task.done;
+    commit();
+}
