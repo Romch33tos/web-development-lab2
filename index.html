@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Список задач</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+    <script type="module" src="./js/main.js"></script>
+</head>
+<body>
+    <main class="app">
+        <form class="add-form" data-add-form novalidate>
+            <div class="add-form__inputs">
+                <label class="visually-hidden" for="new-task-title">Заголовок задачи</label>
+                <input
+                    id="new-task-title" name="title" type="text" maxlength="100"
+                    placeholder="Task Title..." autocomplete="off"
+                    aria-describedby="new-task-error" required
+                >
+                <label class="visually-hidden" for="new-task-body">Описание задачи</label>
+                <input
+                    id="new-task-body" name="body" type="text" maxlength="200"
+                    placeholder="Task body about this task..." autocomplete="off"
+                >
+            </div>
+            <button class="add-form__button" type="submit" aria-label="Добавить задачу">
+                <span class="add-form__plus" aria-hidden="true"></span>
+            </button>
+            <p class="add-form__error" id="new-task-error" aria-live="polite"></p>
+        </form>
+
+        <ul class="task-list" data-list></ul>
+
+        <div class="empty" data-empty>
+            <span class="empty__line"></span>
+            <p class="empty__text">No tasks</p>
+            <span class="empty__line"></span>
+        </div>
+
+        <p class="status visually-hidden" data-status aria-live="polite"></p>
+    </main>
+</body>
+</html>
