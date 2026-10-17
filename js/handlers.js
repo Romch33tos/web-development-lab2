@@ -62,3 +62,32 @@ export function handleChange(event, { toggleTask }) {
     : `Отметка с задачи «${taskTitle}» снята`
   );
 }
+
+export function handleClick(event, { openModal }) {
+  if (event.target.matches('.task__check')) return;
+
+  const taskItem = event.target.closest('.task-item');
+  if (!taskItem) return;
+
+  const taskId = taskItem.dataset.id;
+
+  if (event.target.closest('[data-action="delete"]')) {
+    event.stopPropagation();
+    openModal('delete', taskId);
+    return;
+  }
+
+  const actionButton = event.target.closest('[data-action]');
+  if (actionButton) {
+    const { action } = actionButton.dataset;
+    if (action === 'share') openModal('share', taskId);
+    if (action === 'info') openModal('info', taskId);
+    if (action === 'edit') openModal('edit', taskId);
+    return;
+  }
+
+  if (event.target.closest('[data-task-toggle]')) {
+    const tools = taskItem.querySelector('.task__tools');
+    if (tools) tools.hidden = !tools.hidden;
+  }
+}
