@@ -44,3 +44,21 @@ function clearError(errorElement, input) {
   errorElement.textContent = '';
   input.removeAttribute('aria-invalid');
 }
+
+export function handleChange(event, { toggleTask }) {
+  if (!event.target.matches('.task__check')) return;
+
+  const taskItem = event.target.closest('.task-item');
+  if (!taskItem) return;
+
+  const taskId = taskItem.dataset.id;
+  const titleElement = taskItem.querySelector('.task__title');
+  const taskTitle = titleElement ? titleElement.textContent : '';
+
+  toggleTask(taskId);
+
+  announce(event.target.checked
+    ? `Задача «${taskTitle}» отмечена выполненной`
+    : `Отметка с задачи «${taskTitle}» снята`
+  );
+}
