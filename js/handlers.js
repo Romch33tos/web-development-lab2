@@ -105,3 +105,47 @@ export function handleKeyDownOnCard(event, { toggleTask }) {
   check.checked = !check.checked;
   check.dispatchEvent(new Event('change', { bubbles: true }));
 }
+
+export function setupEditModal({ editTask, closeModal }) {
+  const editTitleInput = document.querySelector('#edit-title-input');
+  const editBodyInput = document.querySelector('#edit-body-input');
+
+  let isSaving = false;
+
+  const saveEdit = () => {
+    if (isSaving) return;
+    isSaving = true;
+
+    const taskId = getCurrentTaskId();
+    if (taskId) {
+      editTask(taskId, editTitleInput.value, editBodyInput.value);
+    }
+    closeModal('edit');
+    announce('Задача изменена');
+
+    setTimeout(() => { isSaving = false; }, 100);
+  };
+
+  editTitleInput.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      saveEdit();
+    }
+  });
+
+  editBodyInput.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      saveEdit();
+    }
+  });
+
+  const handleBlur = (event) => {
+    const relatedTarget = event.relatedTarget;
+    if (relatedTarget && relatedTarget.closest('.modal[data-modal="edit"]')) return;
+    saveEdit();
+  };
+
+  editTitleInput.addEventListener('blur', handleBlur);
+  editBodyInput.addEventListener('blur', handleBlur);
+}
