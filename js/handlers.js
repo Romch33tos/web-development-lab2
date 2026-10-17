@@ -1,6 +1,3 @@
-import { state } from './state.js';
-import { closeModal, getCurrentTaskId } from './modals.js';
-
 export function handleSubmit(event, { addTask, form }) {
   event.preventDefault();
 
@@ -94,7 +91,7 @@ export function handleClick(event, { openModal }) {
 
 export function handleKeyDownOnCard(event, { toggleTask }) {
   if (event.key !== ' ') return;
-  if (!event.target.classList.contains('task') || event.target.closest('button, input')) return;
+  if (!event.target.classList.contains('task')) return;
 
   event.preventDefault();
 
@@ -106,7 +103,7 @@ export function handleKeyDownOnCard(event, { toggleTask }) {
   check.dispatchEvent(new Event('change', { bubbles: true }));
 }
 
-export function setupEditModal({ editTask, closeModal }) {
+export function setupEditModal({ editTask, closeModal, getCurrentTaskId }) {
   const editTitleInput = document.querySelector('#edit-title-input');
   const editBodyInput = document.querySelector('#edit-body-input');
 
@@ -123,7 +120,7 @@ export function setupEditModal({ editTask, closeModal }) {
     closeModal('edit');
     announce('Задача изменена');
 
-    setTimeout(() => { isSaving = false; }, 100);
+    setTimeout(() => { isSaving = false; }, 150);
   };
 
   editTitleInput.addEventListener('keydown', (event) => {
@@ -142,7 +139,9 @@ export function setupEditModal({ editTask, closeModal }) {
 
   const handleBlur = (event) => {
     const relatedTarget = event.relatedTarget;
-    if (relatedTarget && relatedTarget.closest('.modal[data-modal="edit"]')) return;
+    if (relatedTarget && relatedTarget.closest('.modal[data-modal="edit"]')) {
+      return;
+    }
     saveEdit();
   };
 
