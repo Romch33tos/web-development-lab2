@@ -18,8 +18,9 @@ function createTaskItem(task) {
   const tools = item.querySelector('.task__tools');
 
   item.dataset.id = task.id;
-
   card.classList.toggle('task--done', task.done);
+  card.setAttribute('tabindex', '0');
+  card.setAttribute('role', 'button');
 
   check.id = `task-check-${task.id}`;
   check.checked = task.done;
