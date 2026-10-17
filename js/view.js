@@ -21,6 +21,7 @@ function createTaskItem(task) {
   card.classList.toggle('task--done', task.done);
   card.setAttribute('tabindex', '0');
   card.setAttribute('role', 'button');
+  card.setAttribute('aria-pressed', task.done ? 'true' : 'false');
 
   check.id = `task-check-${task.id}`;
   check.checked = task.done;
