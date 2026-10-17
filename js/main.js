@@ -1,121 +1,57 @@
-import { state, subscribe, addTask, toggleTask } from './state.js';
+import { state, subscribe, addTask, toggleTask, removeTask, editTask } from './state.js';
 import { render } from './view.js';
-import { openModal, onDelete, onEdit } from './modals.js';
+import { openModal, closeModal, onDelete, onEdit, getCurrentTaskId } from './modals.js';
+import {
+  handleSubmit,
+  handleChange,
+  handleClick,
+  handleKeyDownOnCard,
+  handleAfterDelete,
+  handleAfterEdit,
+  attachTitleInputListener,
+  setupEditModal,
+} from './handlers.js';
 
 const addForm = document.querySelector('[data-add-form]');
-const titleInput = document.querySelector('#new-task-title');
-const bodyInput = document.querySelector('#new-task-body');
-const errorElement = document.querySelector('#new-task-error');
 const taskList = document.querySelector('[data-list]');
-const statusElement = document.querySelector('[data-status]');
+const titleInput = document.querySelector('#new-task-title');
 
 subscribe(render);
 render(state);
 
-function announce(message) {
-  statusElement.textContent = '';
-  setTimeout(() => {
-    statusElement.textContent = message;
-  }, 50);
-}
+attachTitleInputListener(addForm);
 
-function showError(message) {
-  errorElement.textContent = message;
-}
-
-function clearError() {
-  errorElement.textContent = '';
-  titleInput.removeAttribute('aria-invalid');
-}
+setupEditModal({ editTask, closeModal, getCurrentTaskId });
 
 addForm.addEventListener('submit', (event) => {
-  event.preventDefault();
-
-  const title = titleInput.value.trim();
-  const body = bodyInput.value.trim();
-
-  if (!title) {
-    showError('Введите заголовок задачи');
-    titleInput.setAttribute('aria-invalid', 'true');
-    titleInput.focus();
-    return;
-  }
-
-  addTask(title, body);
-  announce(`Задача «${title}» добавлена`);
-
-  addForm.reset();
-  clearError();
-  titleInput.focus();
-});
-
-titleInput.addEventListener('input', () => {
-  if (titleInput.getAttribute('aria-invalid') === 'true') clearError();
+  handleSubmit(event, { addTask, form: addForm });
 });
 
 taskList.addEventListener('click', (event) => {
-  if (event.target.matches('.task__check')) return;
-
-  const taskItem = event.target.closest('.task-item');
-  if (!taskItem) return;
-
-  const taskId = taskItem.dataset.id;
-
-  if (event.target.closest('[data-action="delete"]')) {
-    event.stopPropagation();
-    openModal('delete', taskId);
-    return;
-  }
-
-  const actionButton = event.target.closest('[data-action]');
-  if (actionButton) {
-    const { action } = actionButton.dataset;
-    if (action === 'share') openModal('share', taskId);
-    if (action === 'info') openModal('info', taskId);
-    if (action === 'edit') openModal('edit', taskId);
-    return;
-  }
-
-  if (event.target.closest('[data-task-toggle]')) {
-    const tools = taskItem.querySelector('.task__tools');
-    tools.hidden = !tools.hidden;
-  }
+  handleClick(event, { openModal });
 });
 
 taskList.addEventListener('change', (event) => {
-  if (!event.target.matches('.task__check')) return;
+  handleChange(event, { toggleTask });
+});
 
-  const taskItem = event.target.closest('.task-item');
-  const taskId = taskItem.dataset.id;
-  const taskTitle = taskItem.querySelector('.task__title').textContent;
+taskList.addEventListener('keydown', (event) => {
+  handleKeyDownOnCard(event, { toggleTask });
+});
 
-  toggleTask(taskId);
-
-  announce(event.target.checked
-    ? `Задача «${taskTitle}» отмечена выполненной`
-    : `Отметка с задачи «${taskTitle}» снята`
-  );
+document.querySelector('[data-modal-confirm-delete]').addEventListener('click', () => {
+  const id = getCurrentTaskId();
+  if (id) {
+    removeTask(id);
+    handleAfterDelete({ list: taskList, form: addForm });
+  }
+  closeModal('delete');
 });
 
 onDelete(() => {
-  const firstItem = taskList.querySelector('.task-item');
-  if (firstItem) {
-    firstItem.querySelector('.task__delete')?.focus();
-  } else {
-    titleInput.focus();
-  }
-  announce('Задача удалена');
+  handleAfterDelete({ list: taskList, form: addForm });
 });
 
-onEdit((editedId) => {
-  const taskItem = taskList.querySelector(`.task-item[data-id="${editedId}"]`);
-  if (taskItem) {
-    const titleElement = taskItem.querySelector('.task__title');
-    if (titleElement) {
-      titleElement.setAttribute('tabindex', '-1');
-      titleElement.focus();
-      titleElement.removeAttribute('tabindex');
-    }
-  }
-  announce('Задача изменена');
+onEdit((id) => {
+  handleAfterEdit({ id, list: taskList, form: addForm });
 });
