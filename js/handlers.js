@@ -149,3 +149,35 @@ export function setupEditModal({ editTask, closeModal }) {
   editTitleInput.addEventListener('blur', handleBlur);
   editBodyInput.addEventListener('blur', handleBlur);
 }
+
+export function handleAfterDelete({ list, form }) {
+  const firstItem = list.querySelector('.task-item');
+  if (firstItem) {
+    firstItem.querySelector('.task__delete')?.focus();
+  } else {
+    form.querySelector('#new-task-title')?.focus();
+  }
+  announce('Задача удалена');
+}
+
+export function handleAfterEdit({ id, list, form }) {
+  const taskItem = list.querySelector(`.task-item[data-id="${id}"]`);
+  const titleElement = taskItem?.querySelector('.task__title');
+  if (titleElement) {
+    titleElement.setAttribute('tabindex', '-1');
+    titleElement.focus();
+    titleElement.removeAttribute('tabindex');
+  } else {
+    form.querySelector('#new-task-title')?.focus();
+  }
+  announce('Задача изменена');
+}
+
+function announce(message) {
+  const statusElement = document.querySelector('[data-status]');
+  if (!statusElement) return;
+  statusElement.textContent = '';
+  setTimeout(() => {
+    statusElement.textContent = message;
+  }, 50);
+}
