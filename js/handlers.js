@@ -91,22 +91,25 @@ export function handleClick(event, { openModal }) {
 
 export function handleKeyDownOnCard(event, { toggleTask }) {
   if (event.key !== ' ') return;
-  if (!event.target.classList.contains('task')) return;
+  
+  const card = event.target.closest('.task');
+  if (!card) return;
 
-  event.preventDefault();
+  if (event.target.matches('input, button')) return;
 
-  const taskItem = event.target.closest('.task-item');
+  event.preventDefault(); 
+  event.stopPropagation(); 
+
+  const taskItem = card.closest('.task-item');
   const check = taskItem.querySelector('.task__check');
   if (!check) return;
 
-  check.checked = !check.checked;
-  check.dispatchEvent(new Event('change', { bubbles: true }));
+  check.click();
 }
 
 export function setupEditModal({ editTask, closeModal, getCurrentTaskId }) {
   const editTitleInput = document.querySelector('#edit-title-input');
   const editBodyInput = document.querySelector('#edit-body-input');
-
   let isSaving = false;
 
   const saveEdit = () => {
@@ -116,30 +119,29 @@ export function setupEditModal({ editTask, closeModal, getCurrentTaskId }) {
     const taskId = getCurrentTaskId();
     if (taskId) {
       editTask(taskId, editTitleInput.value, editBodyInput.value);
+      announce('Задача изменена');
     }
+    
     closeModal('edit');
-    announce('Задача изменена');
-
-    setTimeout(() => { isSaving = false; }, 150);
+    setTimeout(() => { isSaving = false; }, 200);
   };
 
-  editTitleInput.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
+  editTitleInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
       saveEdit();
     }
   });
 
-  editBodyInput.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter' && !event.shiftKey) {
-      event.preventDefault();
+  editBodyInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
       saveEdit();
     }
   });
 
-  const handleBlur = (event) => {
-    const relatedTarget = event.relatedTarget;
-    if (relatedTarget && relatedTarget.closest('.modal[data-modal="edit"]')) {
+  const handleBlur = (e) => {
+    if (e.relatedTarget && e.relatedTarget.closest('.modal[data-modal="edit"]')) {
       return;
     }
     saveEdit();
@@ -169,7 +171,6 @@ export function handleAfterEdit({ id, list, form }) {
   } else {
     form.querySelector('#new-task-title')?.focus();
   }
-  announce('Задача изменена');
 }
 
 function announce(message) {
