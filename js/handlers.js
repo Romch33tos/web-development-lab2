@@ -91,3 +91,17 @@ export function handleClick(event, { openModal }) {
     if (tools) tools.hidden = !tools.hidden;
   }
 }
+
+export function handleKeyDownOnCard(event, { toggleTask }) {
+  if (event.key !== ' ') return;
+  if (!event.target.classList.contains('task') || event.target.closest('button, input')) return;
+
+  event.preventDefault();
+
+  const taskItem = event.target.closest('.task-item');
+  const check = taskItem.querySelector('.task__check');
+  if (!check) return;
+
+  check.checked = !check.checked;
+  check.dispatchEvent(new Event('change', { bubbles: true }));
+}
