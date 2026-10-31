@@ -90,19 +90,21 @@ document.querySelectorAll('[data-modal-close]').forEach(element => {
 });
 
 document.querySelector('[data-modal-confirm-delete]').addEventListener('click', () => {
-  if (currentTaskId) {
-    removeTask(currentTaskId);
-    afterDeleteCallback(currentTaskId);
+  const id = currentTaskId;
+  if (id) {
+    removeTask(id);
+    afterDeleteCallback(id);
   }
   closeModal('delete');
 });
 
 document.querySelector('[data-modal-confirm-edit]').addEventListener('click', () => {
-  if (currentTaskId) {
+  const id = currentTaskId;
+  if (id) {
     const newTitle = document.querySelector('#edit-title-input').value;
     const newBody = document.querySelector('#edit-body-input').value;
-    editTask(currentTaskId, newTitle, newBody);
-    afterEditCallback(currentTaskId);
+    editTask(id, newTitle, newBody);
+    afterEditCallback(id);
   }
   closeModal('edit');
 });
