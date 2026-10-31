@@ -39,15 +39,6 @@ taskList.addEventListener('keydown', (event) => {
   handleKeyDownOnCard(event, { toggleTask });
 });
 
-document.querySelector('[data-modal-confirm-delete]').addEventListener('click', () => {
-  const id = getCurrentTaskId();
-  if (id) {
-    removeTask(id);
-    handleAfterDelete({ list: taskList, form: addForm });
-  }
-  closeModal('delete');
-});
-
 onDelete(() => {
   handleAfterDelete({ list: taskList, form: addForm });
 });
