@@ -91,14 +91,14 @@ export function handleClick(event, { openModal }) {
 
 export function handleKeyDownOnCard(event, { toggleTask }) {
   if (event.key !== ' ') return;
-  
+
   const card = event.target.closest('.task');
   if (!card) return;
 
   if (event.target.matches('input, button')) return;
 
-  event.preventDefault(); 
-  event.stopPropagation(); 
+  event.preventDefault();
+  event.stopPropagation();
 
   const taskItem = card.closest('.task-item');
   const check = taskItem.querySelector('.task__check');
@@ -121,7 +121,7 @@ export function setupEditModal({ editTask, closeModal, getCurrentTaskId }) {
       editTask(taskId, editTitleInput.value, editBodyInput.value);
       announce('Задача изменена');
     }
-    
+
     closeModal('edit');
     setTimeout(() => { isSaving = false; }, 200);
   };
@@ -139,16 +139,6 @@ export function setupEditModal({ editTask, closeModal, getCurrentTaskId }) {
       saveEdit();
     }
   });
-
-  const handleBlur = (e) => {
-    if (e.relatedTarget && e.relatedTarget.closest('.modal[data-modal="edit"]')) {
-      return;
-    }
-    saveEdit();
-  };
-
-  editTitleInput.addEventListener('blur', handleBlur);
-  editBodyInput.addEventListener('blur', handleBlur);
 }
 
 export function handleAfterDelete({ list, form }) {
@@ -171,6 +161,7 @@ export function handleAfterEdit({ id, list, form }) {
   } else {
     form.querySelector('#new-task-title')?.focus();
   }
+  announce('Задача изменена');
 }
 
 function announce(message) {
